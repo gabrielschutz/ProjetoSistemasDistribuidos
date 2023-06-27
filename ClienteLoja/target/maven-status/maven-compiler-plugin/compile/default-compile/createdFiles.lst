@@ -1,0 +1,9 @@
+br\clienteloja\AtualizarProduto.class
+br\clienteloja\ConsultarProduto.class
+br\clienteloja\ListarProdutos.class
+module-info.class
+br\clienteloja\App.class
+br\clienteloja\Produtos.class
+br\clienteloja\RemoverProduto.class
+br\clienteloja\VenderProduto.class
+br\clienteloja\AdicionarProduto.class

@@ -1,0 +1,6 @@
+br\Produtos.class
+br\ws\Gerenciador.class
+br\JakartaRestConfiguration.class
+br\ws\SomaService.class
+br\resources\JakartaEE10Resource.class
+br\servlets\ListarProdutosServlet.class

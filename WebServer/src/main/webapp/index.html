@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Listar Produtos</title>
+        <link rel="stylesheet" href="global.css">
+    </head>
+    <body>
+        <h1 class="title">Estoque Geral da Empresa</h1>
+
+        <table>
+            <tr>
+                <th>ID do Produto</th>
+                <th>Nome do Produto</th>
+                <th>Quantidade Disponivel</th>
+                <th>Valor (R$)</th>
+            </tr>
+
+            <script>
+                function listarProdutos() {
+                    var soapMessage =
+                            '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://ws.br/">' +
+                            '<soapenv:Header/>' +
+                            '<soapenv:Body>' +
+                            '<ws:listarProdutos/>' +
+                            '</soapenv:Body>' +
+                            '</soapenv:Envelope>';
+
+                    var xmlhttp = new XMLHttpRequest();
+                    xmlhttp.open('POST', 'http://localhost:8080/WebServer/Gerenciador', true);
+                    xmlhttp.onreadystatechange = function () {
+                        if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+                            var xmlDoc = xmlhttp.responseXML;
+                            var produtos = xmlDoc.getElementsByTagName('return');
+
+                            for (var i = 0; i < produtos.length; i++) {
+                                var produto = produtos[i];
+                                var id = produto.getElementsByTagName('id')[0].textContent;
+                                var nome = produto.getElementsByTagName('nome')[0].textContent;
+                                var quantidade = produto.getElementsByTagName('quantidade')[0].textContent;
+                                var preco = produto.getElementsByTagName('preco')[0].textContent;
+
+                                var row = document.createElement('tr');
+                                var idCell = document.createElement('td');
+                                var nomeCell = document.createElement('td');
+                                var quantidadeCell = document.createElement('td');
+                                var precoCell = document.createElement('td');
+
+                                idCell.innerHTML = id;
+                                nomeCell.innerHTML = nome;
+                                quantidadeCell.innerHTML = quantidade;
+                                precoCell.innerHTML = preco;
+
+                                row.appendChild(idCell);
+                                row.appendChild(nomeCell);
+                                row.appendChild(quantidadeCell);
+                                row.appendChild(precoCell);
+
+                                document.querySelector('table').appendChild(row);
+                            }
+                        }
+                    };
+                    xmlhttp.setRequestHeader('Content-Type', 'text/xml');
+                    xmlhttp.send(soapMessage);
+                }
+
+                listarProdutos();
+            </script>
+        </table>
+    </body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Listar Logs</title>
+    <link rel="stylesheet" type="text/css" href="global.css">
+</head>
+<body>
+    <h1>Log de Operacoes</h1>
+
+    <table id="logs-table">
+        <tr>
+            <th>Operacoes</th>
+        </tr>
+
+        <script>
+            function listarLogs() {
+                var soapMessage =
+                    '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ws="http://ws.br/">' +
+                        '<soapenv:Header/>' +
+                        '<soapenv:Body>' +
+                            '<ws:listarLogs/>' +
+                        '</soapenv:Body>' +
+                    '</soapenv:Envelope>';
+
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.open('POST', 'http://localhost:8080/WebServer/Gerenciador', true);
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+                        var xmlDoc = xmlhttp.responseXML;
+                        var logs = xmlDoc.getElementsByTagName('return');
+
+                        for (var i = 0; i < logs.length; i++) {
+                            var log = logs[i].textContent;
+
+                            var row = document.createElement('tr');
+                            var logCell = document.createElement('td');
+
+                            logCell.innerHTML = log;
+
+                            row.appendChild(logCell);
+
+                            document.querySelector('#logs-table').appendChild(row);
+                        }
+                    }
+                };
+                xmlhttp.setRequestHeader('Content-Type', 'text/xml');
+                xmlhttp.send(soapMessage);
+            }
+
+            listarLogs();
+        </script>
+    </table>
+</body>
+</html>
